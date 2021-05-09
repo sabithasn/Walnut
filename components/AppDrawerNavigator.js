@@ -1,27 +1,37 @@
 import React from 'react';
 import {createDrawerNavigator} from 'react-navigation-drawer';
-import { AppTabNavigator } from './AppTabNavigator'
+import { AppTabNavigator } from './AppTabNavigator';
+
 import CustomSideBarMenu  from './CustomSideBarMenu';
-
+import NewUserscreen from '../screens/NewUsers'
 import PasswordReset from '../screens/PasswordReset';
-
-
 import {Icon} from 'react-native-elements';
+import AllUsersScreen from '../screens/AllUsers';
+import NewUsersScreen from '../screens/NewUsers';
 
 export const AppDrawerNavigator = createDrawerNavigator({
   UserHome : {
     screen : AppTabNavigator,
     navigationOptions:{
-      drawerIcon : <Icon name="Home" type ="fontawesome5" />
+      drawerIcon : <Icon name="home" type ="fontawesome5" />
     }
     },
   AllUsers : {
-    screen : AppStackNavigator,
+    screen : AllUsersScreen,
     navigationOptions:{
-      drawerIcon : <Icon name="gift" type ="font-awesome" />,
+       drawerIcon : <Icon name="bell" type ="font-awesome" />,
       drawerLabel : "All Users"
     }
   },
+  NewUsers : {
+    screen : NewUsersScreen,
+    navigationOptions:{
+      drawerIcon : <Icon name="gift" type ="font-awesome" />,
+      drawerLabel : "New Users"
+    }
+  },
+
+ 
   PasswordReset : {
     screen : PasswordReset,
     navigationOptions:{

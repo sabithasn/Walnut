@@ -15,9 +15,12 @@ import db from "../config";
 import firebase from "firebase";
 import GetLocation from 'react-native-get-location'
 import { RFValue } from "react-native-responsive-fontsize";
-import {Dropdown} from 'react-native-material-dropdown';
-
+//import {Dropdown} from 'react-native-material-dropdown';
+import { Avatar } from "react-native-elements";
+import * as ImagePicker from "expo-image-picker";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 export default class PasswordReset extends Component {
+  
   constructor() {
     super();
     this.state = {
@@ -26,7 +29,7 @@ export default class PasswordReset extends Component {
       lastName: "",
       location: "",
       age: "",
-      hobby:'',
+      hobby:'Reading',
       image: "#",
       docId: "",
       name:'',
@@ -34,7 +37,7 @@ export default class PasswordReset extends Component {
       newUser:true
     };
   }
-
+   
   getUserDetails = () => {
     var email = firebase.auth().currentUser.email;
     db.collection("users")
@@ -50,6 +53,8 @@ export default class PasswordReset extends Component {
             location: data.location,
             age: data.age,
             hobby:data.hobby,
+            address:data.address,
+            contact:data.contact,
             docId: doc.id,
             name: doc.data().firstName + " " + doc.data().lastName,
           });
@@ -59,16 +64,28 @@ export default class PasswordReset extends Component {
 
   updateUserDetails = () => {
     db.collection("users").doc(this.state.docId).update({
-      emailId: this.state.emailId,
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      location: this.state.location,
-      age: this.state.age,
-      hobby:this.state.hobby,
-      newUser:false
+      newUser:false,
+       age:this.state.age,
+        hobby:this.state.hobby,
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        contact: this.state.contact,
+        emailid: this.state.emailId,
+        address: this.state.address,
     });
-
-    Alert.alert("Profile Updated Successfully");
+     alert("Profile Updated Successfully");
+  /* db.collection("details").add({
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
+            contact: this.state.contact,
+            emailid: this.state.emailId,
+            address: this.state.address,
+            age:this.state.age,
+            hobby:this.state.hobby
+            //location:this.state.location
+          });
+*/
+   
   };
   getlocation = ()=>{
     GetLocation.getCurrentPosition({
@@ -147,7 +164,7 @@ export default class PasswordReset extends Component {
   render() {
     { if (this.state.newUser) {
       return (
-        <SafeAreaView>
+        <SafeAreaProvider>
         <View style={{ flex: 1 }}>
           <View style={{ flex: 0.12 }}>
             <MyHeader title={"Welcome " + this.state.name} navigation={this.props.navigation} />
@@ -201,12 +218,22 @@ export default class PasswordReset extends Component {
                   value={this.state.contact}
                 />
                 <Text style={styles.label}>Hobby </Text>
-                <Dropdown  tyle={styles.formTextInput} data = {DATA}  onChangeText={(text) => {
-                    this.setState({
-                      hobby: text,
-                    });
-                  }}
-                />
+                <Picker
+                  selectedValue={this.state.hobby}
+                  style={{ height: 750, width: 150, alignSelf:'center' }}
+                  onValueChange={(itemValue, itemIndex) => {this.setState({hobby:itemValue}); console.log(this.state.hobby)}}
+                >
+                  <Picker.Item label="Reading" value="Reading" />
+                  <Picker.Item label="Swimming" value="Swimming" />
+                  <Picker.Item label="Driving" value="Driving" />
+                  <Picker.Item label="Writing" value="Writing" />
+                  <Picker.Item label="Singing" value="Singing" />
+                  <Picker.Item label="Listening Music" value="Listening Music" />
+                  <Picker.Item label="Dancing" value="Dancing" />
+                  <Picker.Item label="Plarying" value="Playing" />
+                  <Picker.Item label="Online Games" value="Online Games" />
+                  <Picker.Item label="None" value="No Hobby" />
+                </Picker>
                 <Avatar
                   rounded
                   source={{
@@ -216,7 +243,8 @@ export default class PasswordReset extends Component {
                   onPress={() => this.selectPicture()}
                   showEditButton
                 />
-  
+
+                 
   
                 <TouchableOpacity
                     style={styles.button}
@@ -239,12 +267,12 @@ export default class PasswordReset extends Component {
               </View>
             </View>
         </View>
-        </SafeAreaView>
+        </SafeAreaProvider>
       );
     }
     else {
       return (
-      <SafeAreaView>
+      <SafeAreaProvider>
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.12 }}>
           <MyHeader title={"Welcome " + this.state.name} navigation={this.props.navigation} />
@@ -286,7 +314,7 @@ export default class PasswordReset extends Component {
             </View>
           </View>
       </View>
-      </SafeAreaView>
+      </SafeAreaProvider>
     );
     }}
     
@@ -328,7 +356,7 @@ const styles = StyleSheet.create({
   },
   label:{
     fontSize:RFValue(18),
-    color:"#fff",
+    color:"#A0522D",
     fontWeight:'bold',
     padding:RFValue(10),
     marginLeft:RFValue(20)
@@ -388,4 +416,11 @@ const styles = StyleSheet.create({
                   <Picker.Item label="Online Games" value="Online Games" />
                   <Picker.Item label="None" value="No Hobby" />
                 </Picker>
+
+                 <Dropdown  tyle={styles.formTextInput} data = {DATA}  onChangeText={(text) => {
+                    this.setState({
+                      hobby: text,
+                    });
+                  }}
+                />
   */

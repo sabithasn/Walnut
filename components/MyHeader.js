@@ -13,18 +13,18 @@ export default class MyHeader extends Component{
     }
   }
 
-getNumberOfUnreadNotifications(){
-  db.collection('all_notifications').where('notification_status','==',"unread").where('targeted_user_id','==',this.state.userId)
+getNumberOfNewUsers(){
+  db.collection('users').where('status','==',"new")
   .onSnapshot((snapshot)=>{
-    var unreadNotifications = snapshot.docs.map((doc) => doc.data())
+    var NewUsers = snapshot.docs.map((doc) => doc.data())
     this.setState({
-      value: unreadNotifications.length
+      value: NewUsers.length
     })
   })
 }
 
 componentDidMount(){
-  this.getNumberOfUnreadNotifications()
+  this.getNumberOfNewUsers()
 }
 
 
@@ -32,7 +32,7 @@ componentDidMount(){
     return(
       <View>
         <Icon name='bell' type='font-awesome' color='#ffffff' size={25}
-          onPress={() =>this.props.navigation.navigate('Notification')}/>
+          onPress={() =>this.props.navigation.navigate('NewUsers')}/>
          <Badge
           value={this.state.value}
          containerStyle={{ position: 'absolute', top: -4, right: -4 }}/>

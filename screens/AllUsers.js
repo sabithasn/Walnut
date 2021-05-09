@@ -11,6 +11,7 @@ import { ListItem } from "react-native-elements";
 import firebase from "firebase";
 import db from "../config";
 import MyHeader from "../components/MyHeader";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 export default class AllUsersScreen extends Component {
   constructor() {
@@ -45,25 +46,15 @@ export default class AllUsersScreen extends Component {
 
   renderItem = ({ item, i }) => {
     return (
-      <ListItem
-        key={i}
-        title={item.lastName}
-        subtitle={item.age}
-        titleStyle={{ color: "black", fontWeight: "bold" }}
-        rightElement={
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              this.props.navigation.navigate("Details", {
-                details: item,
-              });
-            }}
-          >
-            <Text style={{ color: "#A0522D" }}>View</Text>
-          </TouchableOpacity>
-        }
-        bottomDivider
-      />
+      <ListItem>
+       <ListItem.Content onPress = {()=>{
+                this.props.navigation.navigate("Details",{"details": item})
+            }}>
+        <ListItem.Title>{item.firstName + " " + item.lastName}</ListItem.Title>
+                    <ListItem.Subtitle>{item.hobby}</ListItem.Subtitle>
+                </ListItem.Content>
+            </ListItem>
+      
     );
   };
 

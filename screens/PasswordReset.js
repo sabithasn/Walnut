@@ -14,6 +14,8 @@ import MyHeader from "../components/MyHeader";
 import db from "../config";
 import firebase from "firebase";
 import { RFValue } from "react-native-responsive-fontsize";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+
 
 export default class PasswordReset extends Component {
   constructor() {

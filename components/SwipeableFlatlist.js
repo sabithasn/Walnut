@@ -17,36 +17,36 @@ export default class SwipeableFlatlist extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      allNotifications: this.props.allNotifications
+      allNewUsers: this.props.allNewUsers
     };
   }
 
   updateMarkAsread = notification => {
-    db.collection("all_notifications")
+    db.collection("users")
       .doc(notification.doc_id)
       .update({
-        notification_status: "read"
+        status: "seen"
       });
   };
 
   onSwipeValueChange = swipeData => {
-    var allNotifications = this.state.allNotifications;
+    var allNewUsers = this.state.allNewUsers;
     const { key, value } = swipeData;
     if (value < -Dimensions.get("window").width) {
-      const newData = [...allNotifications];
-      this.updateMarkAsread(allNotifications[key]);
+      const newData = [...allNewUsers];
+      this.updateMarkAsread(allNewUsers[key]);
       newData.splice(key, 1);
-      this.setState({ allNotifications: newData });
+      this.setState({ allNewUsers: newData });
     }
   };
 
   renderItem = data => (
     <Animated.View>
       <ListItem
-        leftElement={<Icon name="book" type="font-awesome" color="#696969" />}
-        title={data.item.book_name}
+        leftElement={<Icon name="user" type="font-awesome" color="#696969" />}
+        title={data.item.firstName + " " + data.item.lastName}
         titleStyle={{ color: "black", fontWeight: "bold" }}
-        subtitle={data.item.message}
+        subtitle={data.item.hobby}
         bottomDivider
       />
     </Animated.View>
@@ -65,7 +65,7 @@ export default class SwipeableFlatlist extends Component {
       <View style={styles.container}>
         <SwipeListView
           disableRightSwipe
-          data={this.state.allNotifications}
+          data={this.state.allNewUsers}
           renderItem={this.renderItem}
           renderHiddenItem={this.renderHiddenItem}
           rightOpenValue={-Dimensions.get("window").width}

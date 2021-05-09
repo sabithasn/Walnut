@@ -50,7 +50,11 @@ export default class WelcomeScreen extends Component {
             contact: this.state.contact,
             emailid: this.state.emailId,
             address: this.state.address,
-            newUser: true
+            newUser: true, 
+            hobby:'',
+            age:'',
+            location:'',
+            status:"new"
           });
           return Alert.alert("User Added Successfully", "", [
             {
@@ -73,15 +77,16 @@ export default class WelcomeScreen extends Component {
       .auth()
       .signInWithEmailAndPassword(emailId, password)
       .then(() => {
+       
         this.props.navigation.navigate("UserHome");
       })
       .catch(error => {
         var errorCode = error.code;
         var errorMessage = error.message;
-        return ToastAndroid(errorMessage);
+        return Alert.alert(errorMessage);
       });
   };
-
+ 
   showModal = () => {
     return (
       <Modal
@@ -218,7 +223,7 @@ export default class WelcomeScreen extends Component {
               style={styles.myImage}
             />
             <Text style={styles.titleStyle}> Walnut </Text>
-            <Text style= {subtitleStyle}>The Nuttiest Nut</Text>
+            <Text style= {styles.subtitleStyle}>The Nuttiest Nut</Text>
           </View>
         </View>
         <View style={{ flex: 0.45 }}>
@@ -376,7 +381,8 @@ const styles = StyleSheet.create({
   myImage: {
     width: "70%",
     height: "100%",
-    resizeMode: "stretch"
+    resizeMode: "stretch",
+    marginTop: 100
   },
   TextInput: {
     flex: 0.5,
@@ -392,6 +398,6 @@ const styles = StyleSheet.create({
   subtitleStyle: {
     fontSize:25,
     alighSelf:'center',
-    color:'#fffffff'
+    color:'#fffffff',marginBottom:75
   }
 });
