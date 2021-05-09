@@ -54,7 +54,8 @@ export default class PasswordReset extends Component {
         .auth()
         .updatePassword( password)
         .then(() => {
-          this.props.navigation.navigate("DonateBooks");
+          this.props.navigation.navigate("WelcomeScreen");
+          firebase.auth().signOut();
         return ToastAndroid("Password Updated Successfully", ToastAndroid.SHORT);
         })
         .catch(error => {
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:"#6E2C00"
+    backgroundColor:"#1E8449"
   },
   formContainer:{
     flex: 0.88,
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   label:{
     fontSize:RFValue(18),
-    color:"#717D7E",
+    color:"#fff",
     fontWeight:'bold',
     padding:RFValue(10),
     marginLeft:RFValue(20)
@@ -159,7 +160,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: RFValue(50),
-    backgroundColor: "#25714F",
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -178,6 +179,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: RFValue(23),
     fontWeight: "bold",
-    color: "#fff",
+    color: "#A0522D",
   },
 });

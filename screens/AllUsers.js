@@ -17,28 +17,28 @@ export default class AllUsersScreen extends Component {
     super();
     this.state = {
       userId: firebase.auth().currentUser.email,
-      requestedBooksList: [],
+      alluser: [],
     };
-    this.requestRef = null;
+    this.userRef = null;
   }
 
-  getRequestedBooksList = () => {
-    this.requestRef = db
-      .collection("requested_books")
+  getAllUserList = () => {
+    this.userRef = db
+      .collection("users")
       .onSnapshot((snapshot) => {
-        var requestedBooksList = snapshot.docs.map((doc) => doc.data());
+        var allusers = snapshot.docs.map((doc) => doc.data());
         this.setState({
-          requestedBooksList: requestedBooksList,
+          alluser: allusers,
         });
       });
   };
 
   componentDidMount() {
-    this.getRequestedBooksList();
+    this.getAllUserList();
   }
 
   componentWillUnmount() {
-  this.requestRef();
+  this.userRef = null;
   }
 
   keyExtractor = (item, index) => index.toString();
@@ -47,19 +47,19 @@ export default class AllUsersScreen extends Component {
     return (
       <ListItem
         key={i}
-        title={item.book_name}
-        subtitle={item.reason_to_request}
+        title={item.lastName}
+        subtitle={item.age}
         titleStyle={{ color: "black", fontWeight: "bold" }}
         rightElement={
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              this.props.navigation.navigate("RecieverDetails", {
+              this.props.navigation.navigate("Details", {
                 details: item,
               });
             }}
           >
-            <Text style={{ color: "#ffff" }}>View</Text>
+            <Text style={{ color: "#A0522D" }}>View</Text>
           </TouchableOpacity>
         }
         bottomDivider
@@ -70,16 +70,16 @@ export default class AllUsersScreen extends Component {
   render() {
     return (
       <View style={styles.view}>
-        <MyHeader title="Donate Books" navigation={this.props.navigation} />
+        <MyHeader title="All Users" navigation={this.props.navigation} />
         <View style={{ flex: 1 }}>
-          {this.state.requestedBooksList.length === 0 ? (
+          {this.state.alluser.length === 0 ? (
             <View style={styles.subContainer}>
-              <Text style={{ fontSize: 20 }}>List Of All Requested Books</Text>
+              <Text style={{ fontSize: 20 , color:'#fff'}}>List Of All Users</Text>
             </View>
           ) : (
             <FlatList
               keyExtractor={this.keyExtractor}
-              data={this.state.requestedBooksList}
+              data={this.state.alluser}
               renderItem={this.renderItem}
             />
           )}
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#25714F",
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
   },
   view:{
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: "#1E8449"
   }
 });

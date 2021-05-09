@@ -45,12 +45,12 @@ export default class WelcomeScreen extends Component {
         .createUserWithEmailAndPassword(emailId, password)
         .then(() => {
           db.collection("users").add({
-            first_name: this.state.firstName,
-            last_name: this.state.lastName,
+            firstName: this.state.firstName,
+            lastName: this.state.lastName,
             contact: this.state.contact,
-            email_id: this.state.emailId,
+            emailid: this.state.emailId,
             address: this.state.address,
-            IsBookRequestActive: false
+            newUser: true
           });
           return Alert.alert("User Added Successfully", "", [
             {
@@ -73,7 +73,7 @@ export default class WelcomeScreen extends Component {
       .auth()
       .signInWithEmailAndPassword(emailId, password)
       .then(() => {
-        this.props.navigation.navigate("DonateBooks");
+        this.props.navigation.navigate("UserHome");
       })
       .catch(error => {
         var errorCode = error.code;
@@ -217,8 +217,8 @@ export default class WelcomeScreen extends Component {
               source={require("../assets/walnutt.png")}
               style={styles.myImage}
             />
-            <Text> Walnut </Text>
-            <Text>The Nuttiest Nut</Text>
+            <Text style={styles.titleStyle}> Walnut </Text>
+            <Text style= {subtitleStyle}>The Nuttiest Nut</Text>
           </View>
         </View>
         <View style={{ flex: 0.45 }}>
@@ -274,12 +274,12 @@ export default class WelcomeScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#6E2C00"
+    backgroundColor: "#1E8449"
   },
   loginBox: {
     width: "80%",
     height: RFValue(50),
-    borderWidth: 1.5,
+    borderBottomWidth: 1.5,
     borderColor: "#ffffff",
     fontSize: RFValue(20),
     paddingLeft: RFValue(10)
@@ -302,13 +302,13 @@ const styles = StyleSheet.create({
     elevation: 16
   },
   buttonText: {
-    color: "#25714F",
+    color: "#A0522D",
     fontWeight: "200",
     fontSize: RFValue(20)
   },
   label: {
     fontSize: RFValue(13),
-    color: "#717D7E",
+    color: "#ffffff",
     fontWeight: "bold",
     paddingLeft: RFValue(10),
     marginLeft: RFValue(20)
@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: RFValue(3),
-    backgroundColor: "#25714F",
+    backgroundColor: "#ffffff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -345,7 +345,7 @@ const styles = StyleSheet.create({
   registerButtonText: {
     fontSize: RFValue(23),
     fontWeight: "bold",
-    color: "#fff"
+    color: "#A0522D"
   },
   cancelButtonText: {
     fontSize: RFValue(20),
@@ -382,9 +382,16 @@ const styles = StyleSheet.create({
     flex: 0.5,
     alignItems: "center",
     justifyContent: "center"
+  }, 
+  titleStyle: {
+    fontSize:35,
+    fontWeight: 'bold',
+    alighSelf:'center',
+    color:'#fffffff'
   },
-  bookImage: {
-    width: "100%",
-    height: RFValue(220)
+  subtitleStyle: {
+    fontSize:25,
+    alighSelf:'center',
+    color:'#fffffff'
   }
 });

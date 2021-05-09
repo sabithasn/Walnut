@@ -15,8 +15,7 @@ import db from "../config";
 import firebase from "firebase";
 import GetLocation from 'react-native-get-location'
 import { RFValue } from "react-native-responsive-fontsize";
-
-import { SwipeableListView } from "react-native";
+import {Dropdown} from 'react-native-material-dropdown';
 
 export default class PasswordReset extends Component {
   constructor() {
@@ -39,7 +38,7 @@ export default class PasswordReset extends Component {
   getUserDetails = () => {
     var email = firebase.auth().currentUser.email;
     db.collection("users")
-      .where("email_id", "==", email)
+      .where("emailid", "==", email)
       .get()
       .then((snapshot) => {
         snapshot.forEach((doc) => {
@@ -65,7 +64,8 @@ export default class PasswordReset extends Component {
       lastName: this.state.lastName,
       location: this.state.location,
       age: this.state.age,
-      hobby:this.state.hobby
+      hobby:this.state.hobby,
+      newUser:false
     });
 
     Alert.alert("Profile Updated Successfully");
@@ -200,22 +200,13 @@ export default class PasswordReset extends Component {
                   }}
                   value={this.state.contact}
                 />
-                <Picker
-                  selectedValue={selectedValue}
-                  style={{ height: 50, width: 150 }}
-                  onValueChange={(itemValue, itemIndex) => {this.setState({hobby:itemValue})}}
-                >
-                  <Picker.Item label="Reading" value="Reading" />
-                  <Picker.Item label="Swimming" value="Swimming" />
-                  <Picker.Item label="Driving" value="Driving" />
-                  <Picker.Item label="Writing" value="Writing" />
-                  <Picker.Item label="Singing" value="Singing" />
-                  <Picker.Item label="Listening Music" value="Listening Music" />
-                  <Picker.Item label="Dancing" value="Dancing" />
-                  <Picker.Item label="Plarying" value="Playing" />
-                  <Picker.Item label="Online Games" value="Online Games" />
-                  <Picker.Item label="None" value="No Hobby" />
-                </Picker>
+                <Text style={styles.label}>Hobby </Text>
+                <Dropdown  tyle={styles.formTextInput} data = {DATA}  onChangeText={(text) => {
+                    this.setState({
+                      hobby: text,
+                    });
+                  }}
+                />
                 <Avatar
                   rounded
                   source={{
@@ -269,10 +260,10 @@ export default class PasswordReset extends Component {
             >
             <Text style={styles.label}>{"First Name : "+this.state.firstName} </Text>
               
-            <Text style={styles.label}>{"Last Name: " +this.state.lastName} </Text>
-            <Text style={styles.label}>{"Age"+ this.state.age} </Text>
-            <Text style={styles.label}>{"Hobby "+ this.state.hobby} </Text>
-            <Text style={styles.label}>{"Location "+ this.state.location} </Text>
+            <Text style={styles.label}>{"Last Name : " +this.state.lastName} </Text>
+            <Text style={styles.label}>{"Age :"+ this.state.age} </Text>
+            <Text style={styles.label}>{"Hobby :"+ this.state.hobby} </Text>
+            <Text style={styles.label}>{"Location :"+ this.state.location} </Text>
               <Avatar
                 rounded
                 source={{
@@ -287,7 +278,7 @@ export default class PasswordReset extends Component {
               <TouchableOpacity
                   style={styles.button}
                   onPress={() => {
-                    this.setState({newUser = true});
+                    this.setState({newUser : true});
                   }}
                 >
                   <Text style={styles.buttonText}>Edit </Text>
@@ -301,26 +292,27 @@ export default class PasswordReset extends Component {
     
   }
 }
+
 const DATA = [
-  {code:'sw', hobby: "Swimming"},
-  {code:'dr', hobby: "Driving"},
-  {code:'tr', hobby: "Travelling"},
-  {code:'re', hobby: "Reading"},
-  {code:'da', hobby: "Dancing"},
-  {code:'si', hobby: "Singing"},
-  {code:'cr', hobby: "Cricket"},
-  {code:'ba', hobby: "Badminton"},
-  {code:'co', hobby: "Cooking"},
-  {code:'wr', hobby: "Writing"},
-  {code:'pa', hobby: "Painting/Drawing"},
-  {code:'tv', hobby: "Watching TV"},
-  {code:'ga', hobby: "Games Online"},
-  {code:'bb', hobby: "Basket Ball"},
-  {code:'fo', hobby: "Football"},
-  {code:'kn', hobby: "Knitting"},
-  {code:'pl', hobby: "Playing"},
-  {code:'bo', hobby: "Board Games"},
-  {code:'no', hobby: "Nothing"}
+  {value: "Swimming"},
+  {value: "Driving"},
+  {value: "Travelling"},
+  {value: "Reading"},
+  {value: "Dancing"},
+  {value: "Singing"},
+  {value: "Cricket"},
+  {value: "Badminton"},
+  {value: "Cooking"},
+  {value: "Writing"},
+  {value: "Painting/Drawing"},
+  {value: "Watching TV"},
+  {value: "Games Online"},
+  {value: "Basket Ball"},
+  {value: "Football"},
+  {value: "Knitting"},
+  {value: "Playing"},
+  {value: "Board Games"},
+  {value: "Nothing"}
 ]
 
 const styles = StyleSheet.create({
@@ -328,7 +320,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor:"#6E2C00"
+    backgroundColor:"#1E8449"
   },
   formContainer:{
     flex: 0.88,
@@ -336,7 +328,7 @@ const styles = StyleSheet.create({
   },
   label:{
     fontSize:RFValue(18),
-    color:"#717D7E",
+    color:"#fff",
     fontWeight:'bold',
     padding:RFValue(10),
     marginLeft:RFValue(20)
@@ -357,7 +349,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: RFValue(50),
-    backgroundColor: "#25714F",
+    backgroundColor: "#fff",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -376,6 +368,24 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: RFValue(23),
     fontWeight: "bold",
-    color: "#fff",
+    color: "#A0522D",
   },
 });
+/*
+                <Picker
+                  selectedValue={selectedValue}
+                  style={{ height: 50, width: 150 }}
+                  onValueChange={(itemValue, itemIndex) => {this.setState({hobby:itemValue})}}
+                >
+                  <Picker.Item label="Reading" value="Reading" />
+                  <Picker.Item label="Swimming" value="Swimming" />
+                  <Picker.Item label="Driving" value="Driving" />
+                  <Picker.Item label="Writing" value="Writing" />
+                  <Picker.Item label="Singing" value="Singing" />
+                  <Picker.Item label="Listening Music" value="Listening Music" />
+                  <Picker.Item label="Dancing" value="Dancing" />
+                  <Picker.Item label="Plarying" value="Playing" />
+                  <Picker.Item label="Online Games" value="Online Games" />
+                  <Picker.Item label="None" value="No Hobby" />
+                </Picker>
+  */
