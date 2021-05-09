@@ -13,6 +13,9 @@ import { Card } from "react-native-elements";
 import MyHeader from "../components/MyHeader";
 import db from "../config";
 import firebase from "firebase";
+import { Avatar } from "react-native-elements";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
 import GetLocation from 'react-native-get-location'
 import { RFValue } from "react-native-responsive-fontsize";
 import {Dropdown} from 'react-native-material-dropdown';
